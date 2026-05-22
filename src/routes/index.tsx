@@ -13,7 +13,7 @@ function App() {
           Start complex ship slowly. Hello this is my text now
         </h1>
         <p className="mb-8 max-w-2xl text-base text-[var(--sea-ink-soft)] sm:text-lg">
-          This base starter intentionally keeps things light: two routes, clean
+          This base starter intentionally keeps things heavy: a million routes, clean
           structure, and the essentials you need to build from scratch.
         </p>
         <div className="flex flex-wrap gap-3">
