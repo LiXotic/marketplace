@@ -5,7 +5,7 @@ export const Route = createFileRoute('/about')({
 })
 
 const codeStyle = {
-  background: '#eee',
+  background: 'var(--color-code-bg)',
   padding: '0.1rem 0.35rem',
   borderRadius: '4px',
   fontSize: '0.9em',
@@ -20,7 +20,7 @@ function About() {
         padding: '2rem 1rem 3rem',
         fontFamily: 'system-ui, sans-serif',
         lineHeight: 1.5,
-        color: '#1a1a1a',
+        color: 'var(--color-text)',
       }}
     >
       <h1 style={{ marginTop: 0 }}>About this exercise</h1>

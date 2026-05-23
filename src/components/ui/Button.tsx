@@ -18,14 +18,14 @@ const baseStyle: CSSProperties = {
 
 const variantStyles: Record<ButtonVariant, CSSProperties> = {
   primary: {
-    color: '#fff',
-    background: '#2563eb',
-    borderColor: '#1d4ed8',
+    color: 'var(--color-btn-primary-text)',
+    background: 'var(--color-btn-primary-bg)',
+    borderColor: 'var(--color-btn-primary-border)',
   },
   secondary: {
-    color: '#1a1a1a',
-    background: '#e5e5e5',
-    borderColor: '#ccc',
+    color: 'var(--color-btn-secondary-text)',
+    background: 'var(--color-btn-secondary-bg)',
+    borderColor: 'var(--color-btn-secondary-border)',
   },
 }
 

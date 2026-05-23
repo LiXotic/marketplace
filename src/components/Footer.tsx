@@ -6,8 +6,8 @@ export default function Footer() {
         padding: '1rem',
         textAlign: 'center',
         fontSize: '0.875rem',
-        color: '#666',
-        borderTop: '1px solid #ddd',
+        color: 'var(--color-text-subtle)',
+        borderTop: '1px solid var(--color-border)',
       }}
     >
       <p style={{ margin: 0 }}>
