@@ -1,34 +1,22 @@
-import { Moon, Sun } from "lucide-react";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import Button from "@mui/material/Button";
 import { useTheme } from "../lib/theme";
 
-const buttonStyle = {
-	marginLeft: "auto",
-	display: "flex",
-	alignItems: "center",
-	gap: "0.375rem",
-	padding: "0.375rem 0.75rem",
-	fontSize: "0.875rem",
-	fontFamily: "inherit",
-	color: "var(--color-text)",
-	background: "var(--color-surface)",
-	border: "1px solid var(--color-border)",
-	borderRadius: "6px",
-	cursor: "pointer",
-} as const;
-
 export default function ThemeToggle() {
-	const { theme, toggleTheme } = useTheme();
-	const isDark = theme === "dark";
+	const { mode, toggleMode } = useTheme();
+	const isDark = mode === "dark";
 
 	return (
-		<button
-			type="button"
-			onClick={toggleTheme}
+		<Button
+			variant="outlined"
+			size="small"
+			onClick={toggleMode}
+			startIcon={isDark ? <LightModeIcon /> : <DarkModeIcon />}
 			aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-			style={buttonStyle}
+			sx={{ textTransform: "none" }}
 		>
-			{isDark ? <Sun size={16} aria-hidden /> : <Moon size={16} aria-hidden />}
 			{isDark ? "Light" : "Dark"}
-		</button>
+		</Button>
 	);
 }

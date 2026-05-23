@@ -1,7 +1,8 @@
+import Box from "@mui/material/Box";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { ThemeProvider, themeBodyStyle, useTheme } from "../lib/theme";
+import { ThemeProvider } from "../lib/theme";
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -29,22 +30,22 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<ThemeProvider>
-					<ThemedShell>{children}</ThemedShell>
+					<Box
+						sx={{
+							minHeight: "100vh",
+							display: "flex",
+							flexDirection: "column",
+						}}
+					>
+						<Header />
+						<Box component="main" sx={{ flex: 1 }}>
+							{children}
+						</Box>
+						<Footer />
+					</Box>
 				</ThemeProvider>
 				<Scripts />
 			</body>
 		</html>
-	);
-}
-
-function ThemedShell({ children }: { children: React.ReactNode }) {
-	const { theme } = useTheme();
-
-	return (
-		<div style={themeBodyStyle(theme)}>
-			<Header />
-			{children}
-			<Footer />
-		</div>
 	);
 }

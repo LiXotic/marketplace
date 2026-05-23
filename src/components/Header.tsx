@@ -1,43 +1,68 @@
-import { Link } from "@tanstack/react-router";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "@tanstack/react-router";
 import ThemeToggle from "./ThemeToggle";
-
-const linkStyle = {
-	color: "var(--color-link)",
-	textDecoration: "none",
-} as const;
 
 export default function Header() {
 	return (
-		<header
-			style={{
-				background: "var(--color-surface)",
-				borderBottom: "1px solid var(--color-border)",
-				padding: "0.75rem 1rem",
-			}}
+		<AppBar
+			position="static"
+			color="inherit"
+			elevation={0}
+			sx={{ borderBottom: 1, borderColor: "divider" }}
 		>
-			<nav
-				style={{
+			<Toolbar
+				sx={{
 					maxWidth: "32rem",
-					margin: "0 auto",
-					display: "flex",
-					gap: "1rem",
-					alignItems: "center",
+					width: "100%",
+					mx: "auto",
+					px: { xs: 2, sm: 2 },
+					gap: 2,
 				}}
 			>
-				<Link
+				<Typography
+					component={RouterLink}
 					to="/"
-					style={{ ...linkStyle, fontWeight: 700, color: "var(--color-text)" }}
+					variant="subtitle1"
+					sx={{
+						fontWeight: 700,
+						color: "text.primary",
+						textDecoration: "none",
+					}}
 				>
 					Counter App
-				</Link>
-				<Link to="/" style={linkStyle}>
+				</Typography>
+				<Link
+					component={RouterLink}
+					to="/"
+					underline="none"
+					sx={{ color: "primary.main" }}
+				>
 					Home
 				</Link>
-				<Link to="/about" style={linkStyle}>
+				<Link
+					component={RouterLink}
+					to="/counter"
+					underline="none"
+					sx={{ color: "primary.main" }}
+				>
+					Counter
+				</Link>
+				<Link
+					component={RouterLink}
+					to="/about"
+					underline="none"
+					sx={{ color: "primary.main" }}
+				>
 					About
 				</Link>
-				<ThemeToggle />
-			</nav>
-		</header>
+				<Box sx={{ ml: "auto" }}>
+					<ThemeToggle />
+				</Box>
+			</Toolbar>
+		</AppBar>
 	);
 }

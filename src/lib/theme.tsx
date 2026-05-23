@@ -1,5 +1,9 @@
+import CssBaseline from "@mui/material/CssBaseline";
 import {
-	type CSSProperties,
+	createTheme,
+	ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
+import {
 	createContext,
 	type ReactNode,
 	useCallback,
@@ -9,62 +13,62 @@ import {
 	useState,
 } from "react";
 
-export type Theme = "light" | "dark";
+export type ColorMode = "light" | "dark";
 
 const STORAGE_KEY = "paperclip-theme";
 
-export const themeVars: Record<Theme, CSSProperties> = {
-	light: {
-		"--color-bg": "#f5f5f5",
-		"--color-surface": "#ffffff",
-		"--color-text": "#1a1a1a",
-		"--color-text-secondary": "#444444",
-		"--color-text-muted": "#555555",
-		"--color-text-subtle": "#666666",
-		"--color-border": "#dddddd",
-		"--color-link": "#2563eb",
-		"--color-code-bg": "#eeeeee",
-		"--color-btn-primary-text": "#ffffff",
-		"--color-btn-primary-bg": "#2563eb",
-		"--color-btn-primary-border": "#1d4ed8",
-		"--color-btn-secondary-text": "#1a1a1a",
-		"--color-btn-secondary-bg": "#e5e5e5",
-		"--color-btn-secondary-border": "#cccccc",
-	},
-	dark: {
-		"--color-bg": "#0f0f0f",
-		"--color-surface": "#1a1a1a",
-		"--color-text": "#f0f0f0",
-		"--color-text-secondary": "#b0b0b0",
-		"--color-text-muted": "#999999",
-		"--color-text-subtle": "#888888",
-		"--color-border": "#333333",
-		"--color-link": "#60a5fa",
-		"--color-code-bg": "#2a2a2a",
-		"--color-btn-primary-text": "#ffffff",
-		"--color-btn-primary-bg": "#3b82f6",
-		"--color-btn-primary-border": "#2563eb",
-		"--color-btn-secondary-text": "#f0f0f0",
-		"--color-btn-secondary-bg": "#333333",
-		"--color-btn-secondary-border": "#444444",
-	},
+function createAppTheme(mode: ColorMode) {
+	return createTheme({
+		palette: {
+			mode,
+			primary: {
+				main: mode === "light" ? "#2563eb" : "#3b82f6",
+				dark: mode === "light" ? "#1d4ed8" : "#2563eb",
+			},
+			background: {
+				default: mode === "light" ? "#f5f5f5" : "#0f0f0f",
+				paper: mode === "light" ? "#ffffff" : "#1a1a1a",
+			},
+			text: {
+				primary: mode === "light" ? "#1a1a1a" : "#f0f0f0",
+				secondary: mode === "light" ? "#444444" : "#b0b0b0",
+			},
+			divider: mode === "light" ? "#dddddd" : "#333333",
+		},
+		typography: {
+			fontFamily: "system-ui, -apple-system, sans-serif",
+		},
+		shape: {
+			borderRadius: 8,
+		},
+		components: {
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						textTransform: "none",
+						borderRadius: 6,
+					},
+				},
+			},
+		},
+	});
+}
+
+type ColorModeContextValue = {
+	mode: ColorMode;
+	setMode: (mode: ColorMode) => void;
+	toggleMode: () => void;
 };
 
-type ThemeContextValue = {
-	theme: Theme;
-	setTheme: (theme: Theme) => void;
-	toggleTheme: () => void;
-};
+const ColorModeContext = createContext<ColorModeContextValue | null>(null);
 
-const ThemeContext = createContext<ThemeContextValue | null>(null);
-
-function getStoredTheme(): Theme | null {
+function getStoredMode(): ColorMode | null {
 	if (typeof window === "undefined") return null;
 	const stored = localStorage.getItem(STORAGE_KEY);
 	return stored === "light" || stored === "dark" ? stored : null;
 }
 
-function getPreferredTheme(): Theme {
+function getPreferredMode(): ColorMode {
 	if (typeof window === "undefined") return "light";
 	return window.matchMedia("(prefers-color-scheme: dark)").matches
 		? "dark"
@@ -72,49 +76,44 @@ function getPreferredTheme(): Theme {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-	const [theme, setThemeState] = useState<Theme>("light");
+	const [mode, setModeState] = useState<ColorMode>("light");
 
 	useEffect(() => {
-		setThemeState(getStoredTheme() ?? getPreferredTheme());
+		setModeState(getStoredMode() ?? getPreferredMode());
 	}, []);
 
-	const setTheme = useCallback((next: Theme) => {
-		setThemeState(next);
+	const setMode = useCallback((next: ColorMode) => {
+		setModeState(next);
 		localStorage.setItem(STORAGE_KEY, next);
 	}, []);
 
-	const toggleTheme = useCallback(() => {
-		setTheme(theme === "light" ? "dark" : "light");
-	}, [theme, setTheme]);
+	const toggleMode = useCallback(() => {
+		setMode(mode === "light" ? "dark" : "light");
+	}, [mode, setMode]);
 
 	useEffect(() => {
-		document.documentElement.dataset.theme = theme;
-		document.documentElement.style.colorScheme = theme;
-	}, [theme]);
+		document.documentElement.style.colorScheme = mode;
+	}, [mode]);
+
+	const theme = useMemo(() => createAppTheme(mode), [mode]);
 
 	const value = useMemo(
-		() => ({ theme, setTheme, toggleTheme }),
-		[theme, setTheme, toggleTheme],
+		() => ({ mode, setMode, toggleMode }),
+		[mode, setMode, toggleMode],
 	);
 
 	return (
-		<ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+		<ColorModeContext.Provider value={value}>
+			<MuiThemeProvider theme={theme}>
+				<CssBaseline />
+				{children}
+			</MuiThemeProvider>
+		</ColorModeContext.Provider>
 	);
 }
 
 export function useTheme() {
-	const ctx = useContext(ThemeContext);
+	const ctx = useContext(ColorModeContext);
 	if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
 	return ctx;
-}
-
-export function themeBodyStyle(theme: Theme): CSSProperties {
-	return {
-		margin: 0,
-		fontFamily: "system-ui, -apple-system, sans-serif",
-		lineHeight: 1.5,
-		color: "var(--color-text)",
-		background: "var(--color-bg)",
-		...themeVars[theme],
-	};
 }
