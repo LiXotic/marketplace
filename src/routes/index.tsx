@@ -57,7 +57,6 @@ function CounterPage() {
           <Button variant="secondary" onClick={() => setCount(0)}>
             Reset to 0
           </Button>
-
         </div>
       </section>
     </main>
