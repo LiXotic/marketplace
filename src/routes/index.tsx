@@ -60,7 +60,6 @@ function CounterPage() {
           </Button>
         </div>
       </section>
-
        <section
         aria-labelledby="counter-heading"
         style={{
