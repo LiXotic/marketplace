@@ -53,8 +53,8 @@ function CounterPage() {
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <Button onClick={() => setCount(count + 1)}>Add 1</Button>
-          <Button onClick={() => setCount(count - 1)}>Subtract 1</Button>
+          <Button disabled={count==10} onClick={() => setCount(count + 1)}>Add 1</Button>
+          <Button disabled={count==0} onClick={() => setCount(count - 1)}>Subtract 1</Button>
           <Button variant="secondary" onClick={() => setCount(0)}>
             Reset to 0
           </Button>
@@ -87,8 +87,8 @@ function CounterPage() {
           {cash}
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <Button onClick={() => setCash(cash + 1)}>Add 1</Button>
-          <Button onClick={() => setCash(cash - 1)}>Subtract 1</Button>
+          <Button disabled={cash==10} onClick={() => setCash(cash + 1)}>Add 1</Button>
+          <Button disabled={cash==0} onClick={() => setCash(cash - 1)}>Subtract 1</Button>
           <Button variant="secondary" onClick={() => setCash(0)}>
             Reset to 0
           </Button>
