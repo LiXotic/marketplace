@@ -6,7 +6,7 @@ export const Route = createFileRoute('/')({ component: CounterPage })
 
 function CounterPage() {
   const [count, setCount] = useState(0)
-  const [count2, setCount2] = useState(0)
+  const [cash, setCash] = useState(0)
 
   return (
     <main
@@ -84,12 +84,12 @@ function CounterPage() {
           aria-live="polite"
           style={{ margin: '0 0 1.25rem', fontSize: '3rem', fontWeight: 700, lineHeight: 1 }}
         >
-          {count2}
+          {cash}
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <Button onClick={() => setCount2(count2 + 1)}>Add 1</Button>
-          <Button onClick={() => setCount2(count2 - 1)}>Subtract 1</Button>
-          <Button variant="secondary" onClick={() => setCount2(0)}>
+          <Button onClick={() => setCash(cash + 1)}>Add 1</Button>
+          <Button onClick={() => setCash(cash - 1)}>Subtract 1</Button>
+          <Button variant="secondary" onClick={() => setCash(0)}>
             Reset to 0
           </Button>
         </div>
