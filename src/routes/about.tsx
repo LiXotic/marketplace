@@ -99,4 +99,4 @@ function AboutPage() {
 			</Typography>
 		</Container>
 	);
-};
+}
